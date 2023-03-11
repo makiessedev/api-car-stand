@@ -1,23 +1,20 @@
 import { Router } from 'express';
-import { randomUUID } from 'node:crypto';
-import { CategoryModel } from '../model/CategoryModel';
+import { CategoriesRepository } from '../repositories/CategoriesRepository';
 
 export const categoriesRoutes = Router();
 
-const categories: CategoryModel[] = [];
+const categoriesRepository = new CategoriesRepository();
 
-categoriesRoutes.post('/categories', (request, response) => {
+categoriesRoutes.post('/', (request, response) => {
   const { name, description } = request.body;
 
-  const category = new CategoryModel();
+  categoriesRepository.create({ name, description });
 
-  Object.assign(category, {
-    name,
-    description,
-    createdAt: new Date(),
-  });
+  return response.status(201).send();
+});
 
-  categories.push(category);
+categoriesRoutes.get('/', (request, response) => {
+  const categories = categoriesRepository.list();
 
-  return response.status(201).send(categories);
+  return response.send(categories);
 });

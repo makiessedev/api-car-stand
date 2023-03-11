@@ -9,6 +9,12 @@ export class CreateSpecificationService {
   constructor(private specificationRepository: ISpecificationsRepository) {}
 
   public execute({ name, description }: IRequest): void {
+    const specificationName = this.specificationRepository.findByName(name);
+
+    if (specificationName) {
+      throw new Error('Specification already exists');
+    }
+
     this.specificationRepository.create({ name, description });
   }
 }

@@ -13,18 +13,26 @@ export class CategoriesRepository {
   }
 
   public create({ name, description }: ICreateCategoryDTO): void {
-    const category = new CategoryModel();
+    const categoryModel = new CategoryModel();
 
-    Object.assign(category, {
+    Object.assign(categoryModel, {
       name,
       description,
       createdAt: new Date(),
     });
 
-    this.categories.push(category);
+    this.categories.push(categoryModel);
   }
 
   public list(): CategoryModel[] {
     return this.categories;
+  }
+
+  public findByName(name: string): CategoryModel {
+    const categoryName = this.categories.find(
+      (category) => category.name === name
+    );
+
+    return categoryName;
   }
 }

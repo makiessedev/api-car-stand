@@ -6,7 +6,7 @@ export class ListCategoriesController {
 
   public handle(request: Request, response: Response): Response {
     const list = this.listCategoriesUseCase.execute();
-
+    
     return response.status(200).send(list);
   }
 }
